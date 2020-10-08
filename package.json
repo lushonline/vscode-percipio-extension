@@ -1,0 +1,113 @@
+{
+    "name": "vscode-percipio-extension",
+    "displayName": "Percipio  Search",
+    "icon": "images/percipio-icon-128x128.png",
+    "description": "Instant Percipio search staying in a context of your favorite vs-code. Select a line and initiate the instance search with a 'cmd+h' (help) hotkey",
+    "version": "0.0.0",
+    "author": {
+        "name": "Martin Holden",
+        "email": "martin.holden@skillsoft.com"
+    },
+    "license": "MIT",
+    "publisher": "martinholden-skillsoft",
+    "repository": "https://github.com/martinholden-skillsoft/vscode-percipio-extension",
+    "engines": {
+        "vscode": "^1.32.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "keywords": [
+        "percipio",
+        "skillsoft",
+        "question",
+        "answer",
+        "search",
+        "instant search"
+    ],
+    "activationEvents": [
+        "onCommand:config.commands.configure-percipio-search",
+        "onCommand:extension.percipio-search",
+        "onCommand:extension.percipio-search-selection"
+    ],
+    "main": "./out/extension",
+    "contributes": {
+        "configuration": [
+            {
+                "title": "Percipio Search",
+                "type": "object",
+                "properties": {
+                    "percipioSearch.siteUrl": {
+                        "type": "string",
+                        "default": "https://demo.percipio.com",
+                        "description": "The Percipio Site",
+                        "scope": "window"
+                    }
+                }
+            }
+        ],
+        "commands": [
+            {
+                "category": "Percipio Search",
+                "command": "config.commands.configure-percipio-search",
+                "title": "Configure the Percipio Site to use"
+            },
+            {
+                "command": "extension.percipio-search",
+                "title": "Percipio",
+                "category": "Search",
+                "icon": "vs-search"
+            },
+            {
+                "command": "extension.percipio-search-selection",
+                "title": "Percipio Search",
+                "category": "Search",
+                "icon": "vs-search"
+            }
+        ],
+        "keybindings": [
+            {
+                "command": "extension.percipio-search",
+                "key": "ctrl+h",
+                "mac": "cmd+h"
+            },
+            {
+                "command": "extension.percipio-search-selection",
+                "key": "ctrl+shift+h",
+                "mac": "cmd+shift+h"
+            }
+        ],
+        "menus": {
+            "editor/context": [
+                {
+                    "command": "extension.percipio-search-selection",
+                    "alt": "extension.percipio-search",
+                    "group": "z_commands",
+                    "when": "editorHasSelection"
+                }
+            ]
+        }
+    },
+    "scripts": {
+        "lint": "eslint src/**/*.ts",
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "preversion": "npm run lint && npm run compile",
+        "postversion": "git push && git push --tags && npm run changelog && git push ",
+        "changelog": "rimraf CHANGELOG.md && auto-changelog --template keepachangelog && git add . && git commit . -m changelog && git push"
+    },
+    "devDependencies": {
+        "@types/node": "^14.11.5",
+        "@typescript-eslint/eslint-plugin": "^4.2.0",
+        "@typescript-eslint/parser": "^4.4.0",
+        "auto-changelog": "^2.2.1",
+        "eslint": "^7.10.0",
+        "typescript": "^4.0.3",
+        "vscode": "^1.1.37"
+    },
+    "dependencies": {
+        "open": "^7.3.0"
+    }
+}
