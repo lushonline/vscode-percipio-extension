@@ -3,7 +3,7 @@
     "displayName": "Percipio  Search",
     "icon": "images/percipio-icon-128x128.png",
     "description": "Instant Percipio search staying in a context of your favorite vs-code. Select a line and initiate the instance search with a 'cmd+h' (help) hotkey",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "author": {
         "name": "Martin Holden",
         "email": "martin.holden@skillsoft.com"
@@ -42,7 +42,7 @@
                         "default": "https://demo.percipio.com",
                         "description": "The Percipio Site",
                         "format": "uri",
-                        "scope":"application"
+                        "scope": "application"
                     }
                 }
             }
