@@ -125,15 +125,28 @@ export function activate(context: vscode.ExtensionContext) {
     },
   );
 
+  const validatePercipioInput = (value: string): string => {
+    if (isValidPercipioUrl(value)) {
+      return '';
+    } else {
+      return 'Please enter a valid Percipio site url, such as https://demo.percipio.com';
+    }
+  };
+
   const configureSearch = vscode.commands.registerCommand('config.commands.configure-percipio-search', async () => {
-    const currentSite = vscode.workspace.getConfiguration('percipioSearch').get<string>('siteUrl');
+    const config = vscode.workspace.getConfiguration('percipioSearch');
+
+    const currentSite = config.get<string>('siteUrl');
     // 1) Getting the Site Url
-    const percipioSite = await vscode.window.showInputBox({ placeHolder: 'Enter the Percipio Site URL', value: currentSite });
+    const percipioSite = await vscode.window.showInputBox({ placeHolder: 'Enter the Percipio Site URL', value: currentSite, validateInput: validatePercipioInput });
 
     // Validate the url
     if (percipioSite && isValidPercipioUrl(percipioSite) && currentSite !== percipioSite) {
+      // Clean the URL removing any path info etc
+      const myURL = new URL(percipioSite);
+
       // 2) Update if different
-      vscode.workspace.getConfiguration('percipioSearch').update('siteUrl', percipioSite);
+      config.update('siteUrl', myURL.origin, vscode.ConfigurationTarget.Global);
     }
   });
 
