@@ -1,8 +1,4 @@
 import * as vscode from 'vscode';
-import { URL } from 'url';
-
-import open = require('open');
-
 
 /**
  * Gets the selected text from the active editor
@@ -79,7 +75,7 @@ function executeSearch(searchTerm: string): void {
   const encodedWebSearchTerm = encodeURIComponent(search);
   const percipioSearchUrl = `${currentSite}/search?q=${encodedWebSearchTerm}`;
 
-  open(percipioSearchUrl);
+  vscode.env.openExternal( vscode.Uri.parse( percipioSearchUrl ) );
 }
 
 
